@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Requests</title>
+    <style>
+        /* General page layout styling with custom fonts, margins, and background color */
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; padding: 40px; }
+        
+        /* Main heading style with a bottom underline border */
+        h1 { color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; display: inline-block; }
+        
+        /* Dashboard cards container styling using Flexbox for side-by-side layout */
+        .dashboard-cards { display: flex; gap: 20px; margin-bottom: 30px; margin-top: 20px; }
+        
+        /* Individual stat card styling with white background and soft box shadow */
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 220px; text-align: center; }
+        
+        /* Title styling inside stat cards */
+        .card h3 { margin: 0; color: #7f8c8d; font-size: 16px; }
+        
+        /* Number value styling inside stat cards */
+        .card p { margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: #2c3e50; }
+        
+        /* Main data table layout and border styling */
+        table { width: 100%; background: white; border-collapse: collapse; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 10px; }
+        
+        /* Table header and cell layout padding */
+        th, td { padding: 15px; border: 1px solid #ddd; text-align: left; }
+        
+        /* Dark table header background color */
+        th { background: #2c3e50; color: white; }
+        
+        /* Zebra-striping effect for alternating table rows */
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        /* Back Button Style to return to the admin panel */
+        .back-btn { display: inline-block; margin-top: 25px; padding: 10px 20px; background-color: #34495e; color: white; text-decoration: none; border-radius: 5px; }
+        .back-btn:hover { background-color: #1abc9c; }
+    </style>
+</head>
+<body>
+
+    <!-- Main heading for the leave requests management section -->
+    <h1>Leave Requests Overview</h1>
+    
+    <!-- Dashboard summary cards showing quick system statistics -->
+    <div class="dashboard-cards">
+        <div class="card"><h3>Total Employees</h3><p id="totalEmployees">0</p></div>
+        <div class="card"><h3>Leave Requests</h3><p id="totalRequests">0</p></div>
+        <div class="card"><h3>Leave Responded</h3><p id="respondedRequests">0</p></div>
+    </div>
+    
+    <!-- Table listing individual leave applications submitted by employees -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee Name</th>
+                <th>Leave Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <!-- Table body where data rows are dynamically injected via JavaScript -->
+        <tbody id="adminTableBody">
+        </tbody>
+    </table>
+
+    <!-- Navigation link back to the main admin control dashboard -->
+    <a href="admin_dashboard.html" class="back-btn">← Back to Dashboard</a>
+
+    <script>
+        /* Main asynchronous function to fetch summary statistics and leave request data */
+        function loadData() {
+            
+            /* Fetch statistical counts (Total employees, requests, and responses) as JSON */
+            fetch('GetDashboardStats')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalEmployees').innerText = data.totalEmployees || 0;
+                    document.getElementById('totalRequests').innerText = data.totalRequests || 0;
+                    document.getElementById('respondedRequests').innerText = data.respondedRequests || 0;
+                })
+                .catch(error => console.error("Stats Fetch Error:", error));
+                
+            /* Fetch table rows containing detailed leave requests from backend servlet */
+            fetch('GetAdminLeaveData')
+                .then(response => response.text())
+                .then(data => {
+                    /* Insert the fetched HTML table rows into the admin table body */
+                    document.getElementById('adminTableBody').innerHTML = data;
+
+                    /* Automatically generate serial numbers (1, 2, 3...) for the ID column */
+                    const rows = document.querySelectorAll('#adminTableBody tr');
+                    rows.forEach((row, index) => {
+                        row.cells[0].innerText = index + 1; 
+                    });
+                })
+                .catch(error => console.error("Table Fetch Error:", error));
+        }
+        
+        /* Automatically execute data loading function as soon as the page loads */
+        window.onload = loadData;
+        
+        /* Set up periodic auto-refresh every 5 seconds (5000 milliseconds) for real-time updates */
+        setInterval(loadData, 5000); 
+    </script>
+</body>
+</html>

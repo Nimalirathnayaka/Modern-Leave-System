@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Styling for the main body layout and centering contents */
+        body { 
+            font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; 
+        }
+        
+        /* Styling for the main heading (Welcome Admin!) */
+        h1 { color: #2c3e50; margin-bottom: 50px; font-size: 3rem; font-weight: 700; }
+        
+        /* Container box holding the navigation options for the admin */
+        .admin-box { 
+            background: #ffffff; padding: 60px; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+            display: flex; flex-direction: row; gap: 25px; width: 90%; max-width: 1200px; justify-content: center; box-sizing: border-box; 
+        }
+        
+        /* Styling for individual option cards/links inside the admin container */
+        .admin-box a { 
+            flex: 1; color: #34495e; padding: 40px 20px; text-decoration: none; background: #f8f9fa; 
+            border: 2px solid #e9ecef; border-radius: 15px; font-weight: 700; font-size: 1.4rem; text-align: center; 
+            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; min-height: 100px; 
+        }
+        
+        /* Hover effect when the admin moves the mouse over the buttons */
+        .admin-box a:hover { 
+            background: #2c3e50; color: white; border-color: #2c3e50; 
+            transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
+        }
+        
+        /* Special custom styling specifically for the Logout button */
+        .logout-btn { color: #e74c3c !important; border-color: #fadbd8 !important; }
+        .logout-btn:hover { background: #e74c3c !important; border-color: #e74c3c !important; color: white !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Main page header greeting the administrator -->
+    <h1>Welcome Admin!</h1>
+
+    <!-- Dashboard navigation panel containing action buttons/links -->
+    <div class="admin-box">
+        <!-- Link to manage employees page -->
+        <a href="manage_employees.html">Manage Employee</a>
+        
+        <!-- Link to view pending and past leave requests -->
+        <a href="view_leaves.html">View Leave Request</a>
+        
+        <!-- Link to generate and view full admin leave reports via servlet -->
+        <a href="ViewAdminLeaveReportServlet">Generate Report</a>
+        
+        <!-- Logout action link directing to the logout servlet with custom logout styling -->
+        <a href="LogoutServlet" class="logout-btn">Log out</a>
+    </div>
+
+</body>
+</html>

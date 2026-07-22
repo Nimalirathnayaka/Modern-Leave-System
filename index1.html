@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modern Leave System - Login</title>
+    <style>
+        /* Styling for the main body to perfectly center the login box on the web page */
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        
+        /* Styling for the central white container box holding the login elements */
+        .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); width: 300px; text-align: center; }
+        
+        /* Styling for text and password input fields */
+        input[type="text"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        /* Styling for the submit button */
+        button { width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        
+        /* Hover effect when the user moves the mouse over the button */
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<!-- Central container for the login interface -->
+<div class="login-container">
+    <!-- Main heading displayed on top of the login box -->
+    <h2>Leave System Login</h2>
+    
+    <!-- Login form that securely sends POST data to the backend LoginServlet -->
+    <form action="LoginServlet" method="POST">
+        <!-- Input field for the user's username (mandatory field) -->
+        <input type="text" name="username" placeholder="Username" required>
+        
+        <!-- Input field for the user's password (mandatory field) -->
+        <input type="password" name="password" placeholder="Password" required>
+        
+        <!-- Submit input button to process the login action -->
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+</body>
+</html>

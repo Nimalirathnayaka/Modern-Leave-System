@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Employees</title>
+    <style>
+        /* General page body styling for fonts, background color, and layout spacing */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; padding: 40px; margin: 0; color: #334155; }
+        
+        /* Main page heading styles */
+        h1 { color: #1e293b; margin-bottom: 30px; font-weight: 700; }
+        
+        /* Layout container using Flexbox to align left and right boxes side by side */
+        .main-container { display: flex; gap: 25px; align-items: flex-start; }
+        
+        /* Left box occupies more space to display the employee table comfortably */
+        .left-box { flex: 2; }
+        
+        /* Right box occupies less space to hold the registration form */
+        .right-box { flex: 1; }
+        
+        /* Shared styling for white card containers with rounded corners and shadow */
+        .container-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        
+        /* Subheadings with a nice blue vertical accent border on the left */
+        h3 { color: #1e293b; margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; border-left: 4px solid #3b82f6; padding-left: 10px; }
+        
+        /* Data table styling for full width, clean borders, and rounded edges */
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
+        
+        /* Table header row styling with dark background */
+        th { background-color: #1e293b; color: #ffffff; padding: 16px; text-align: left; border-bottom: 2px solid #1e293b; }
+        
+        /* Table data cell styling */
+        td { padding: 15px; border-bottom: 1px solid #e2e8f0; color: #1e293b; }
+        tr:last-child td { border-bottom: none; }
+        
+        /* Hover effect on table rows to give interactive feel */
+        tr:hover td { background-color: #f8fafc; cursor: pointer; }
+        
+        /* Form layout styling to stack form controls vertically with gaps */
+        .register-form { display: flex; flex-direction: column; gap: 15px; }
+        
+        /* Styling for text inputs, password fields, and role selection dropdown */
+        .register-form input, .register-form select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; background-color: #ffffff; }
+        
+        /* Dark Blue Register Button styling */
+        .register-btn { 
+            background-color: #1e293b; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: background 0.3s; 
+        }
+        /* Hover effect for the register button */
+        .register-btn:hover { background-color: #334155; }
+        
+        /* Back button styling to return to the admin dashboard */
+        .back-btn { display: inline-block; margin-top: 30px; padding: 10px 20px; background-color: #475569; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <!-- Main title of the management page -->
+    <h1>Manage Employees</h1>
+
+    <div class="main-container">
+        <!-- Left Section: Displays the list of registered employees in a table -->
+        <div class="container-box left-box">
+            <h3>Employee List</h3>
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Username</th><th>Role</th></tr>
+                </thead>
+                <!-- Table body where employee data rows will be dynamically loaded via JavaScript -->
+                <tbody id="employeeTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Right Section: Form to register a new user/employee -->
+        <div class="container-box right-box">
+            <h3>Register New Employee</h3>
+            <!-- Form submits data to the RegisterEmployeeServlet backend via POST method -->
+            <form action="RegisterEmployeeServlet" method="POST" class="register-form">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <select name="role">
+                    <option value="employee">Employee</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation button back to the main admin control panel -->
+    <a href="admin_dashboard.html" class="back-btn">← Back to Dashboard</a>
+
+    <script>
+        /* Function to fetch employee records asynchronously from the backend servlet */
+        function loadEmployees() {
+            fetch('GetEmployeesServlet') 
+                .then(response => response.text())
+                .then(data => { 
+                    /* Injects the retrieved HTML rows into the table body element */
+                    document.getElementById('employeeTableBody').innerHTML = data; 
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        
+        /* Automatically runs the loadEmployees function as soon as the page finishes loading */
+        window.onload = loadEmployees;
+    </script>
+</body>
+</html>

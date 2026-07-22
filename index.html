@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modern Leave System Login</title>
+    <style>
+        /* Styling for the main page body to center the login box on the screen */
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        
+        /* Styling for the central white login container box */
+        .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); width: 300px; text-align: center; }
+        
+        /* Styling for input text and password fields */
+        input[type="text"], input[type="password"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        /* Styling for the submit login button */
+        button { width: 100%; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        button:hover { background-color: #0056b3; }
+        
+        /* Styling for the error message (hidden by default) */
+        .error-msg { color: red; font-size: 14px; margin-bottom: 10px; display: none; }
+        
+        /* Styling for the 'Show Password' checkbox section */
+        .show-pass { font-size: 13px; text-align: left; margin-bottom: 10px; color: #555; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <!-- Main heading for the login interface -->
+    <h2>Modern Leave System Login</h2>
+    
+    <!-- Error message text which appears if login fails -->
+    <p id="errorMsg" class="error-msg">Incorrect Username or Password!</p>
+
+    <!-- Login form pointing to the backend LoginServlet via POST method -->
+    <form action="LoginServlet" method="POST">
+        <!-- Input field for user's username -->
+        <input type="text" name="username" placeholder="Username" required>
+        <!-- Input field for user's password -->
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        
+        <!-- Checkbox option to toggle password visibility -->
+        <div class="show-pass">
+            <input type="checkbox" onclick="togglePassword()"> Show Password
+        </div>
+        
+        <!-- Submit button to trigger login -->
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+<script>
+    /* JavaScript function to toggle password field between hidden and visible text */
+    function togglePassword() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
+    /* JavaScript to check URL parameters when the page loads; displays error message if login failed */
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (urlParams.has('error')) {
+            document.getElementById('errorMsg').style.display = 'block';
+        }
+    };
+</script>
+
+</body>
+</html>
